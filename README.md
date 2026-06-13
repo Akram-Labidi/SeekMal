@@ -180,10 +180,6 @@ Au premier lancement, SeekMal crée automatiquement:
 
 Ce projet est fourni à des fins éducatives.
 
-## 👨‍💻 Auteur
-
-Développé avec ❤️ en Java/JavaFX
-
 ---
 
 **Note**: SeekMal est un projet éducatif. Pour une protection professionnelle, utilisez des solutions antivirus certifiées.
