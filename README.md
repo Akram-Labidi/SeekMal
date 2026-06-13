@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SeekMal — Antivirus & Monitoring System
 
 ![Java](https://img.shields.io/badge/Java-17-orange)
@@ -173,35 +174,9 @@ Au premier lancement, SeekMal crée automatiquement:
 }
 ```
 
-### Modifier le thème
-
-Éditez `src/main/resources/css/style.css` pour personnaliser les couleurs et styles.
-
-## 📝 Limites connues
-
-- Export PDF non implémenté (CSV disponible)
-- Base de signatures statique (JSON local)
-- Pas de mise à jour automatique des signatures
-- Pas de scan persistant entre sessions
-
-## 🔮 Pistes d'amélioration
-
-- [ ] Mise à jour automatique des signatures depuis serveur
-- [ ] Export PDF des rapports
-- [ ] Scan planifié (cron-like)
-- [ ] Multi-utilisateur avec rôles
-- [ ] Notifications système
-- [ ] Scan réseau
-- [ ] Intégration API REST
-
-## 📄 License
-
-Ce projet est fourni à des fins éducatives.
-
-## 👨‍💻 Auteur
-
-Développé avec ❤️ en Java/JavaFX
-
----
 
 **Note**: SeekMal est un projet éducatif. Pour une protection professionnelle, utilisez des solutions antivirus certifiées.
+=======
+# SeekMal
+SeekMal — Système antivirus et monitoring desktop en JavaFX avec authentification sécurisée, scan de fichiers, protection temps réel, quarantaine et dashboard de surveillance.
+>>>>>>> fb36993b6e4ae026d9283d54c4b1257c43cdba38
