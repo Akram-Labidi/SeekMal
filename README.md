@@ -172,7 +172,6 @@ Au premier lancement, SeekMal crée automatiquement:
     }
   ]
 }
-```
 
 
 **Note**: SeekMal est un projet éducatif. Pour une protection professionnelle, utilisez des solutions antivirus certifiées.
