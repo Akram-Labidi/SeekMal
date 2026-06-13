@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.antivirus.ui.LoginController"
+      stylesheets="@../css/style.css"
+      alignment="CENTER"
+      spacing="20"
+      styleClass="login-container">
+
+    <padding>
+        <Insets top="50" right="50" bottom="50" left="50"/>
+    </padding>
+
+    <VBox alignment="CENTER" spacing="15" styleClass="login-box">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+
+        <Label text="SEEKMAL" styleClass="login-title">
+            <font>
+                <Font name="System Bold" size="28"/>
+            </font>
+        </Label>
+        
+        <Label text="Authentification requise" styleClass="login-subtitle">
+            <font>
+                <Font size="14"/>
+            </font>
+        </Label>
+
+        <VBox spacing="10" styleClass="login-form">
+            <VBox spacing="5">
+                <Label text="Nom d'utilisateur:" styleClass="login-label"/>
+                <TextField fx:id="usernameField" promptText="admin" prefWidth="300"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Mot de passe:" styleClass="login-label"/>
+                <PasswordField fx:id="passwordField" promptText="••••••••" prefWidth="300"/>
+            </VBox>
+
+            <Label fx:id="errorLabel" text="" styleClass="error-label" visible="false"/>
+        </VBox>
+
+        <HBox spacing="10" alignment="CENTER">
+            <Button fx:id="loginButton" text="Se connecter" onAction="#handleLogin" 
+                    prefWidth="140" styleClass="login-button"/>
+            <Button fx:id="cancelButton" text="Annuler" onAction="#handleCancel" 
+                    prefWidth="140" styleClass="cancel-button"/>
+        </HBox>
+    </VBox>
+</VBox>

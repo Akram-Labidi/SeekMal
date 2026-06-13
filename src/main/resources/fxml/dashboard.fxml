@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.antivirus.ui.DashboardController"
+            stylesheets="@../css/style.css">
+
+    <!-- ============ SIDEBAR ============ -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="230">
+            <Label text="◆ SEEKMAL" styleClass="sidebar-logo"/>
+            <Label text="ENDPOINT PROTECTION CONSOLE" styleClass="sidebar-subtitle"/>
+
+            <Button fx:id="navDashboard" text="Tableau de bord" styleClass="nav-button, nav-button-active"
+                    onAction="#showDashboardView" maxWidth="Infinity"/>
+            <Button fx:id="navScan" text="Analyse" styleClass="nav-button"
+                    onAction="#showScanView" maxWidth="Infinity"/>
+            <Button fx:id="navRealtime" text="Protection temps réel" styleClass="nav-button"
+                    onAction="#showRealtimeView" maxWidth="Infinity"/>
+            <Button fx:id="navQuarantine" text="Quarantaine" styleClass="nav-button"
+                    onAction="#showQuarantineView" maxWidth="Infinity"/>
+            <Button fx:id="navHistory" text="Historique" styleClass="nav-button"
+                    onAction="#showHistoryView" maxWidth="Infinity"/>
+            <Button fx:id="navChangePassword" text="Changer mot de passe" styleClass="nav-button"
+                    onAction="#showChangePasswordDialog" maxWidth="Infinity"/>
+
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <Separator styleClass="separator-line"/>
+            <VBox spacing="4" style="-fx-padding: 16 24 0 24;">
+                <Label text="BASE DE SIGNATURES" styleClass="kpi-label"/>
+                <Label fx:id="signatureCountLabel" text="0 entrées" styleClass="text-mono, text-muted"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- ============ CENTER : header + content stack ============ -->
+    <center>
+        <BorderPane>
+            <top>
+                <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="16">
+                    <VBox>
+                        <Label fx:id="pageTitleLabel" text="Tableau de bord" styleClass="page-title"/>
+                        <Label fx:id="pageSubtitleLabel" text="Vue d'ensemble de la protection du système" styleClass="page-subtitle"/>
+                    </VBox>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <HBox fx:id="globalStatusPill" styleClass="status-pill, status-pill-ok" alignment="CENTER" spacing="6">
+                        <Circle fx:id="globalStatusDot" radius="4" styleClass="status-dot-ok"/>
+                        <Label fx:id="globalStatusLabel" text="SYSTÈME PROTÉGÉ"/>
+                    </HBox>
+                </HBox>
+            </top>
+
+            <center>
+                <StackPane fx:id="contentStack" styleClass="content-area">
+
+                    <!-- ===================== VUE 1 : DASHBOARD ===================== -->
+                    <ScrollPane fx:id="dashboardView" fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;">
+                        <VBox spacing="20">
+
+                            <!-- KPI cards -->
+                            <HBox spacing="16">
+                                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                    <Label text="SCANS EFFECTUÉS" styleClass="kpi-label"/>
+                                    <Label fx:id="kpiTotalScans" text="0" styleClass="kpi-value, kpi-value-accent"/>
+                                </VBox>
+                                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                    <Label text="FICHIERS ANALYSÉS" styleClass="kpi-label"/>
+                                    <Label fx:id="kpiFilesScanned" text="0" styleClass="kpi-value"/>
+                                </VBox>
+                                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                    <Label text="MENACES DÉTECTÉES" styleClass="kpi-label"/>
+                                    <Label fx:id="kpiThreatsFound" text="0" styleClass="kpi-value, kpi-value-danger"/>
+                                </VBox>
+                                <VBox styleClass="kpi-card" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                    <Label text="EN QUARANTAINE" styleClass="kpi-label"/>
+                                    <Label fx:id="kpiQuarantined" text="0" styleClass="kpi-value, kpi-value-warning"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- System resources -->
+                            <VBox styleClass="panel" spacing="14">
+                                <Label text="RESSOURCES SYSTÈME" styleClass="panel-title-eyebrow"/>
+                                <HBox spacing="24">
+                                    <VBox spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label text="CPU" styleClass="text-mono, text-muted"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label fx:id="cpuValueLabel" text="0%" styleClass="text-mono"/>
+                                        </HBox>
+                                        <ProgressBar fx:id="cpuProgressBar" prefWidth="Infinity" progress="0"/>
+                                    </VBox>
+                                    <VBox spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label text="MÉMOIRE" styleClass="text-mono, text-muted"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label fx:id="memValueLabel" text="0%" styleClass="text-mono"/>
+                                        </HBox>
+                                        <ProgressBar fx:id="memProgressBar" prefWidth="Infinity" progress="0"/>
+                                    </VBox>
+                                    <VBox spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                        <HBox alignment="CENTER_LEFT" spacing="8">
+                                            <Label text="DISQUE" styleClass="text-mono, text-muted"/>
+                                            <Region HBox.hgrow="ALWAYS"/>
+                                            <Label fx:id="diskValueLabel" text="0%" styleClass="text-mono"/>
+                                        </HBox>
+                                        <ProgressBar fx:id="diskProgressBar" prefWidth="Infinity" progress="0"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+
+                            <!-- Charts row -->
+                            <HBox spacing="16">
+                                <VBox styleClass="panel" spacing="8" HBox.hgrow="ALWAYS" maxWidth="Infinity">
+                                    <Label text="MENACES PAR SCAN (HISTORIQUE)" styleClass="panel-title-eyebrow"/>
+                                    <LineChart fx:id="threatsLineChart" animated="false" legendVisible="false"
+                                               prefHeight="240" createSymbols="true">
+                                        <xAxis>
+                                            <CategoryAxis fx:id="lineChartXAxis" side="BOTTOM" label="Scan #"/>
+                                        </xAxis>
+                                        <yAxis>
+                                            <NumberAxis fx:id="lineChartYAxis" side="LEFT" label="Menaces"/>
+                                        </yAxis>
+                                    </LineChart>
+                                </VBox>
+                                <VBox styleClass="panel" spacing="8" prefWidth="320">
+                                    <Label text="RÉPARTITION PAR TYPE" styleClass="panel-title-eyebrow"/>
+                                    <PieChart fx:id="threatTypePieChart" prefHeight="240" legendVisible="true"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- Recent activity log -->
+                            <VBox styleClass="panel" spacing="8">
+                                <Label text="JOURNAL D'ACTIVITÉ RÉCENT" styleClass="panel-title-eyebrow"/>
+                                <ListView fx:id="activityLogList" styleClass="log-console" prefHeight="180"/>
+                            </VBox>
+
+                        </VBox>
+                    </ScrollPane>
+
+                    <!-- ===================== VUE 2 : SCAN ===================== -->
+                    <VBox fx:id="scanView" spacing="20" visible="false" managed="false">
+
+                        <VBox styleClass="panel" spacing="16">
+                            <Label text="LANCER UNE ANALYSE" styleClass="panel-title-eyebrow"/>
+
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <Label text="Type de scan :" styleClass="text-muted"/>
+                                <ComboBox fx:id="scanTypeCombo" prefWidth="180"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                            </HBox>
+
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <TextField fx:id="scanPathField" promptText="Chemin du dossier à scanner..." HBox.hgrow="ALWAYS"/>
+                                <Button text="Parcourir..." styleClass="btn-secondary" onAction="#handleBrowseFolder"/>
+                            </HBox>
+
+                            <HBox spacing="12">
+                                <Button fx:id="startScanButton" text="Démarrer le scan" styleClass="btn-primary" onAction="#handleStartScan"/>
+                                <Button fx:id="cancelScanButton" text="Annuler" styleClass="btn-danger" onAction="#handleCancelScan" disable="true"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Exporter rapport (CSV)" styleClass="btn-secondary" onAction="#handleExportReport"/>
+                            </HBox>
+
+                            <VBox spacing="6">
+                                <ProgressBar fx:id="scanProgressBar" prefWidth="Infinity" progress="0"/>
+                                <HBox spacing="8">
+                                    <Label fx:id="scanStatusLabel" text="Prêt." styleClass="text-mono, text-muted"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Label fx:id="scanCountLabel" text="" styleClass="text-mono, text-muted"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+
+                        <VBox styleClass="panel" spacing="8" VBox.vgrow="ALWAYS">
+                            <Label text="MENACES DÉTECTÉES (SCAN COURANT)" styleClass="panel-title-eyebrow"/>
+                            <TableView fx:id="scanThreatsTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colScanFile" text="FICHIER" prefWidth="320"/>
+                                    <TableColumn fx:id="colScanThreatName" text="MENACE" prefWidth="200"/>
+                                    <TableColumn fx:id="colScanType" text="TYPE" prefWidth="140"/>
+                                    <TableColumn fx:id="colScanHash" text="HASH (SHA-256)" prefWidth="280"/>
+                                    <TableColumn fx:id="colScanAction" text="ACTION" prefWidth="140"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+
+                    <!-- ===================== VUE 3 : TEMPS RÉEL ===================== -->
+                    <VBox fx:id="realtimeView" spacing="20" visible="false" managed="false">
+
+                        <VBox styleClass="panel" spacing="16">
+                            <Label text="PROTECTION EN TEMPS RÉEL" styleClass="panel-title-eyebrow"/>
+                            <Label text="Surveille un dossier et analyse automatiquement chaque nouveau fichier dès sa création."
+                                   styleClass="text-muted" wrapText="true"/>
+
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <TextField fx:id="monitorPathField" promptText="Dossier à surveiller..." HBox.hgrow="ALWAYS"/>
+                                <Button text="Parcourir..." styleClass="btn-secondary" onAction="#handleBrowseMonitorFolder"/>
+                            </HBox>
+
+                            <HBox spacing="12" alignment="CENTER_LEFT">
+                                <Button fx:id="startMonitorButton" text="Activer la protection" styleClass="btn-primary" onAction="#handleStartMonitoring"/>
+                                <Button fx:id="stopMonitorButton" text="Désactiver" styleClass="btn-danger" onAction="#handleStopMonitoring" disable="true"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <HBox fx:id="monitorStatusPill" styleClass="status-pill, status-pill-warning" alignment="CENTER" spacing="6">
+                                    <Circle fx:id="monitorStatusDot" radius="4" styleClass="status-dot-warning"/>
+                                    <Label fx:id="monitorStatusLabel" text="INACTIF"/>
+                                </HBox>
+                            </HBox>
+                        </VBox>
+
+                        <VBox styleClass="panel" spacing="8" VBox.vgrow="ALWAYS">
+                            <Label text="FLUX D'ÉVÉNEMENTS" styleClass="panel-title-eyebrow"/>
+                            <ListView fx:id="realtimeLogList" styleClass="log-console" VBox.vgrow="ALWAYS"/>
+                        </VBox>
+                    </VBox>
+
+                    <!-- ===================== VUE 4 : QUARANTAINE ===================== -->
+                    <VBox fx:id="quarantineView" spacing="20" visible="false" managed="false">
+
+                        <HBox styleClass="panel" alignment="CENTER_LEFT" spacing="16">
+                            <VBox>
+                                <Label text="DOSSIER DE QUARANTAINE" styleClass="panel-title-eyebrow"/>
+                                <Label fx:id="quarantinePathLabel" text="" styleClass="text-mono, text-muted"/>
+                            </VBox>
+                            <Region HBox.hgrow="ALWAYS"/>
+                            <VBox alignment="CENTER_RIGHT">
+                                <Label text="ESPACE OCCUPÉ" styleClass="kpi-label"/>
+                                <Label fx:id="quarantineSizeLabel" text="0 B" styleClass="text-mono"/>
+                            </VBox>
+                            <Button text="Actualiser" styleClass="btn-secondary" onAction="#handleRefreshQuarantine"/>
+                        </HBox>
+
+                        <VBox styleClass="panel" spacing="8" VBox.vgrow="ALWAYS">
+                            <Label text="FICHIERS EN QUARANTAINE" styleClass="panel-title-eyebrow"/>
+                            <TableView fx:id="quarantineTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colQFile" text="FICHIER ORIGINAL" prefWidth="350"/>
+                                    <TableColumn fx:id="colQThreat" text="MENACE" prefWidth="200"/>
+                                    <TableColumn fx:id="colQDate" text="DATE" prefWidth="160"/>
+                                    <TableColumn fx:id="colQSize" text="TAILLE" prefWidth="100"/>
+                                    <TableColumn fx:id="colQActions" text="ACTIONS" prefWidth="220"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+
+                    <!-- ===================== VUE 5 : HISTORIQUE ===================== -->
+                    <VBox fx:id="historyView" spacing="20" visible="false" managed="false">
+
+                        <VBox styleClass="panel" spacing="8" VBox.vgrow="ALWAYS">
+                            <Label text="HISTORIQUE DES SCANS" styleClass="panel-title-eyebrow"/>
+                            <TableView fx:id="historyTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colHType" text="TYPE" prefWidth="120"/>
+                                    <TableColumn fx:id="colHPath" text="CIBLE" prefWidth="320"/>
+                                    <TableColumn fx:id="colHFiles" text="FICHIERS" prefWidth="100"/>
+                                    <TableColumn fx:id="colHThreats" text="MENACES" prefWidth="100"/>
+                                    <TableColumn fx:id="colHDuration" text="DURÉE" prefWidth="100"/>
+                                    <TableColumn fx:id="colHDate" text="DATE" prefWidth="180"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+
+                        <VBox styleClass="panel" spacing="8" VBox.vgrow="ALWAYS">
+                            <Label text="TOUTES LES MENACES ENREGISTRÉES" styleClass="panel-title-eyebrow"/>
+                            <TableView fx:id="allThreatsTable" VBox.vgrow="ALWAYS">
+                                <columns>
+                                    <TableColumn fx:id="colATFile" text="FICHIER" prefWidth="300"/>
+                                    <TableColumn fx:id="colATThreat" text="MENACE" prefWidth="180"/>
+                                    <TableColumn fx:id="colATType" text="TYPE" prefWidth="140"/>
+                                    <TableColumn fx:id="colATStatus" text="STATUT" prefWidth="120"/>
+                                    <TableColumn fx:id="colATDate" text="DÉTECTÉ LE" prefWidth="160"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </VBox>
+
+                </StackPane>
+            </center>
+        </BorderPane>
+    </center>
+
+</BorderPane>
